@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         CountTimers();
         JumpChecks();
         LandCheck();
-        WallSlideCheck();
+        WallSlideCheck(InputManager.Movement);
         WallJumpChecks();
     }
 
@@ -300,9 +300,9 @@ public class PlayerMovement : MonoBehaviour
 
     #region Wall Slide
 
-    private void WallSlideCheck()
+    private void WallSlideCheck(Vector2 moveInput)
     {
-        if (isTouchingWall && !isGrounded)
+        if (isTouchingWall && !isGrounded && (Mathf.Abs(moveInput.x) >= MoveStats.MoveThreshold))
         {
             if (VerticalVelocity < 0f && !isWallSliding)
             {

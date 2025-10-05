@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemyController: MonoBehaviour
+public class enemyController : MonoBehaviour
 {
+    private Rigidbody2D rb;
+
     //movement
     public float speed;
     private bool movingRight = true;
@@ -23,6 +25,7 @@ public class enemyController: MonoBehaviour
     private void Start()
     {
         currentHealth = health;
+        rb = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)// this part is temp remove later
         {
@@ -31,18 +34,18 @@ public class enemyController: MonoBehaviour
     }
     public void Update()
     {
-        transform.Translate(Vector2.right * -speed * Time.deltaTime);
+        rb.velocity = new Vector2((movingRight ? 1 : -1) * speed, rb.velocity.y);
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 2f);
         if (groundInfo.collider == false)
         {
             if (movingRight)
             {
-                transform.eulerAngles = new Vector3(0, 100, 0);
+                transform.Rotate(0f, 180f, 0f);
                 movingRight = false;
             }
             else
             {
-                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.Rotate(0f, 180f, 0f);
                 movingRight = true;
             }
         }
@@ -56,14 +59,10 @@ public class enemyController: MonoBehaviour
                 flash = false;
             }
         }
-        //if (Input.GetKeyDown(KeyCode.Space))// to test delete later
-        //{
-           // Damage(1);
-        //}
     }
-    public void Damage(int damage) 
+    public void Damage(int damage)
     {
-    currentHealth -= damage;
+        currentHealth -= damage;
         FlashRed();
         if (currentHealth <= 0)
         {
@@ -74,11 +73,11 @@ public class enemyController: MonoBehaviour
     {
         Destroy(gameObject);
     }
-    private void FlashRed() 
+    private void FlashRed()
     {
         if (spriteRenderer != null)
-        { 
-        spriteRenderer.color = damageColor;
+        {
+            spriteRenderer.color = damageColor;
             flashTimer = damageflash;
             flash = true;
         }
