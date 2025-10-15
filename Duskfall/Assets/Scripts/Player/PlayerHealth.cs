@@ -4,22 +4,50 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int health;
     public int maxHealth = 5;
+    public int currentHealth;
 
+    public HealthUI healthUI;
 
-    // Start is called before the first frame update
-    void Start()
+    private SpriteRenderer spriteRenderer;
+    private Color baseCol;
+
+    private void Start()
     {
-        health=maxHealth;
+        currentHealth = maxHealth;
+        healthUI.SetMaxHearts(maxHealth);
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        baseCol = spriteRenderer.color;
     }
 
-    public void takeDamage(int amount) 
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        health -= amount;
-        if (health < 0)
+        enemyController enemy = collision.GetComponent<enemyController>();
+        if (enemy)
         {
-        Destroy(gameObject);
+            TakeDamage(enemy.damage);
         }
+    }
+
+    private void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthUI.UpdateHearts(currentHealth);
+
+        StartCoroutine(FlashRed());
+
+        if (currentHealth <= 0)
+        {
+            //player is dead
+        }
+    }
+
+    private IEnumerator FlashRed()
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        spriteRenderer.color = baseCol;
     }
 }

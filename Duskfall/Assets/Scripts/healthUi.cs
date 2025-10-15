@@ -1,60 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
 {
-    public int health;
-    public int maxHealth;
+    public Image heartPrefab;
     public Sprite fullHeart;
     public Sprite emptyHeart;
-    public Image[] hearts;
 
-    private PlayerHealth playerHealth;
+    private List<Image> hearts = new List<Image>();
 
-    void Update()
+    public void SetMaxHearts(int maxHearts)
     {
-        // Automatically find the player if not assigned
-        if (playerHealth == null)
+        foreach (Image heart in hearts)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
+            Destroy(heart.gameObject);
+        }
+
+        hearts.Clear();
+
+        for (int i = 0; i < maxHearts; i++)
+        {
+            Image newHeart = Instantiate(heartPrefab, transform);
+            newHeart.sprite = fullHeart;
+            hearts.Add(newHeart);
+        }
+    }
+
+    public void UpdateHearts(int currentHealth)
+    {
+        for (int i = 0; i < hearts.Count; i++)
+        {
+            if (i < currentHealth)
             {
-                playerHealth = player.GetComponent<PlayerHealth>();
-                if (playerHealth == null)
-                {
-                    playerHealth = player.GetComponentInChildren<PlayerHealth>();
-                    if (playerHealth == null)
-                        return; // PlayerHealth not found yet
-                }
+                hearts[i].sprite = fullHeart;
             }
             else
             {
-                return; // Player not spawned yet
+                hearts[i].sprite = emptyHeart;
             }
-            health = playerHealth.health;
-            maxHealth = playerHealth.maxHealth;
-            for (int i = 0; i < hearts.Length; i++)
-            {
-                if (hearts[i] == null) continue; // Skip missing heart images
-                if (fullHeart == null || emptyHeart == null) continue; // Skip if sprites are not assigned
-                if (i < health)
-                {
-                    hearts[i].sprite = fullHeart;
-                }
-                else
-                {
-                    hearts[i].sprite = emptyHeart;
-                }
-                if (i < maxHealth)
-                {
-                    hearts[i].enabled = true;
-                }
-                else
-                {
-                    hearts[i].enabled = false;
-                }
-            }
-
         }
     }
 }
