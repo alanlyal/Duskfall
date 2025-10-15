@@ -243,6 +243,8 @@ public class PlayerMovement : MonoBehaviour
 
         ResetWallJumpValues();
 
+        SoundEffectManager.Play("Jump");
+
         jumpBufferTimer = 0f;
         numOfJumpsUsed += numberOfJumpsUsed;
         VerticalVelocity = MoveStats.JumpVelocity;
@@ -371,6 +373,8 @@ public class PlayerMovement : MonoBehaviour
         {
             isWallJumping = true;
         }
+
+        SoundEffectManager.Play("Jump");
 
         isWallSliding = false;
         ResetJumpValues();
