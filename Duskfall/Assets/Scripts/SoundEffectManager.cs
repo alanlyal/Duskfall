@@ -6,8 +6,8 @@ public class SoundEffectManager : MonoBehaviour
 {
     private static SoundEffectManager instance;
 
-    [SerializeField] private static AudioSource audioSource;
-    private static SoundEffectLibrary soundEffectLibrary;
+    private AudioSource audioSource;
+    private SoundEffectLibrary soundEffectLibrary;
 
     private void Awake()
     {
@@ -24,13 +24,19 @@ public class SoundEffectManager : MonoBehaviour
         }
     }
 
-    // to play a sound call "SoundEffectManager.Play("soundname"); on the given object
+    // to play a sound call "SoundEffectManager.Play("soundname");" on the given object
     public static void Play(string soundName)
     {
-        AudioClip audioClip = soundEffectLibrary.GetRandomClip(soundName);
+        if (instance == null)
+        {
+            Debug.LogWarning("SoundEffectManager not found in the scene!");
+            return;
+        }
+
+        AudioClip audioClip = instance.soundEffectLibrary.GetRandomClip(soundName);
         if (audioClip != null)
         {
-            audioSource.PlayOneShot(audioClip);
+            instance.audioSource.PlayOneShot(audioClip);
         }
     }
 }

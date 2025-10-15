@@ -1025,7 +1025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -890, y: 465}
+  m_AnchoredPosition: {x: -890, y: 318.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &955446622
@@ -1085,6 +1085,10 @@ PrefabInstance:
       propertyPath: healthUI
       value: 
       objectReference: {fileID: 955446622}
+    - target: {fileID: 1767182149117061385, guid: fe126a3ab7122804ebb4c78efab8e5d3, type: 3}
+      propertyPath: currentHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3981037051534987225, guid: fe126a3ab7122804ebb4c78efab8e5d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.286
