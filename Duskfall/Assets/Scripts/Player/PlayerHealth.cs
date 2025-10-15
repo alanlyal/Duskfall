@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
@@ -9,7 +10,10 @@ public class PlayerHealth : MonoBehaviour
 
     public HealthUI healthUI;
 
-    private SpriteRenderer spriteRenderer;
+    [Header("iFrames")]
+    [SerializeField] private float iFrameDuration;
+    [SerializeField] private float numOfFlashes;
+    private SpriteRenderer spriteRend;
     private Color baseCol;
 
     private void Start()
@@ -17,9 +21,9 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         healthUI.SetMaxHearts(maxHealth);
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRend = GetComponent<SpriteRenderer>();
 
-        baseCol = spriteRenderer.color;
+        baseCol = spriteRend.color;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,7 +40,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         healthUI.UpdateHearts(currentHealth);
 
-        StartCoroutine(FlashRed());
+        StartCoroutine(Invunerability());
 
         if (currentHealth <= 0)
         {
@@ -44,10 +48,16 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private IEnumerator FlashRed()
+    private IEnumerator Invunerability()
     {
-        spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.2f);
-        spriteRenderer.color = baseCol;
+        Physics2D.IgnoreLayerCollision(7, 8, true);
+        for (int i = 0; i < numOfFlashes; i++)
+        {
+            spriteRend.color = new Color(1, 0.5f, 0.5f);
+            yield return new WaitForSeconds(iFrameDuration / (numOfFlashes));
+            spriteRend.color = baseCol;
+            yield return new WaitForSeconds(iFrameDuration / (numOfFlashes));
+        }
+        Physics2D.IgnoreLayerCollision(7, 8, false);
     }
 }

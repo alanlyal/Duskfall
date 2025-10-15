@@ -764,6 +764,8 @@ MonoBehaviour:
   maxHealth: 5
   currentHealth: 0
   healthUI: {fileID: 0}
+  iFrameDuration: 1
+  numOfFlashes: 3
 --- !u!1 &8917208374046956656
 GameObject:
   m_ObjectHideFlags: 0
