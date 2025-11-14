@@ -6,7 +6,25 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Movement Test.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/MainMenu.unity
+    guid: 8ba1377131374f444905a791004f57e0
+  - enabled: 1
+    path: Assets/Scenes/Settings.unity
+    guid: cebb9fbba0385a440bac0dbe8f6ee626
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 1bc99faee894de94ba2f711c85fa444b
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
+    guid: 217a4a14a0d7bcb4c8b429a99cf90c61
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 33e4aa3a4f6ef4a4aad145a5af93be42
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: d97f2fc23597b514cb017cc58f115f61
+  - enabled: 1
+    path: Assets/Scenes/EndScreen.unity
+    guid: bb5aa4c188c32ed44aa5868d67bae686
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c1f067632a6e7664caf09c3543fd07c0, type: 3}

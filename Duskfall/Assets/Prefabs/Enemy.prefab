@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 8839448299139862395}
   m_Layer: 8
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,5 +206,6 @@ MonoBehaviour:
   speed: 3
   groundDetection: {fileID: 1418777293041829172}
   health: 3
+  damage: 1
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageflash: 0.1
