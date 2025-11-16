@@ -143,7 +143,6 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("HELP ME");
         gameOverMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
