@@ -7,12 +7,24 @@ public class PlayerAttack : MonoBehaviour
     private float timeBtwAttack;
     public float startTimeBtwAttack;
 
-    public GameObject slashEffect;
+    private Animator animator;
+    private PlayerMovement PlayerMovement;
 
     public Transform attackPos;
     public float attackRange;
-    public LayerMask enemy;
-    public int damage;
+    public LayerMask damageableLayer;
+    public float damage;
+    public float KBForce;
+    public Vector2 KBAngle;
+
+    private bool hitboxActive = false;
+    private HashSet<IDamageable> targetsHit = new HashSet<IDamageable>();
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        PlayerMovement = GetComponent<PlayerMovement>();
+    }
 
     private void Update()
     {
@@ -21,13 +33,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (InputManager.AttackWasPressed)
             {
-                StartCoroutine(PlaySlashEffect());
-                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, enemy);
-                for (int i = 0; i < enemiesToDamage.Length; i++)
-                {
-                    enemiesToDamage[i].GetComponent<enemyController>().Damage(damage);
-                }
-
+                animator.SetTrigger("attack");
                 timeBtwAttack = startTimeBtwAttack;
             }
         }
@@ -35,13 +41,37 @@ public class PlayerAttack : MonoBehaviour
         {
             timeBtwAttack -= Time.deltaTime;
         }
+
+        if (hitboxActive)
+        {
+            CheckHitbox();
+        }
     }
 
-    private IEnumerator PlaySlashEffect()
+    public void EnableHitbox()
     {
-        slashEffect.SetActive(true);
-        yield return new WaitForSeconds(startTimeBtwAttack);
-        slashEffect.SetActive(false);
+        hitboxActive = true;
+        targetsHit.Clear();
+    }
+
+    public void DisableHitbox()
+    {
+        hitboxActive = false;
+    }
+
+    private void CheckHitbox()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackPos.position, attackRange, damageableLayer);
+        foreach (Collider2D c in colliders)
+        {
+            IDamageable damageable = c.GetComponentInParent<IDamageable>();
+
+            if (damageable != null && !targetsHit.Contains(damageable))
+            {
+                targetsHit.Add(damageable);
+                damageable.Damage(damage, KBForce, new Vector2(KBAngle.x * (PlayerMovement.isFacingRight ? 1 : -1), KBAngle.y));
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()

@@ -5,13 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class LevelManagement : MonoBehaviour
 {
- 
-        void Update()
+    void Update()
+    {
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
         {
-            if (GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-    
+    }
+
 }
